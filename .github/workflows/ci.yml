@@ -7,9 +7,9 @@ permissions:
   id-token: write
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    name: Gather package releases and publish manifest file
+    name: Gather package releases
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -96,3 +96,42 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+
+      - name: Get output from terraform state
+        run: |
+          terraform output -json state >> current.json
+          terraform output -raw google_cloud_sdk_repo > google-cloud-sdk.repo
+          terraform output -raw grafana_repo > grafana.repo
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: |
+            current.json
+            google-cloud-sdk.repo
+            grafana.repo
+          retention-days: 1
+      
+  publish:
+    runs-on: ubuntu-latest
+    name: Upload manifest file
+    steps:
+      - uses: actions/download-artifact@v4
+
+      - name: Keyless Authentication for exchanging resource token
+        uses: narwhl/imprint@v1
+        with:
+          scope: cloudflare
+
+      - name: Copy files with Rclone
+        uses: docker://rclone/rclone:latest
+        env:
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACL: private
+          RCLONE_CONFIG_R2_ENDPOINT: ${{ env.AWS_ENDPOINT_URL_S3 }}
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        with:
+          entrypoint: /bin/sh
+          args:
+            rclone copy . r2:artifact/upstream/
