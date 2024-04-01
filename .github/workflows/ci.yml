@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Keyless Authentication for exchanging resource token
-        uses: narwhl/imprint@v1
+        uses: narwhl/imprint@main
         with:
           scope: cloudflare
 
       - name: Setup Terraform
-        uses: narwhl/setup-terraform@v1
+        uses: narwhl/setup-terraform@main
 
