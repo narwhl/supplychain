@@ -1,0 +1,24 @@
+name: Publish release manifest
+
+on:
+  push:
+
+permissions:
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Gather package releases and publish manifest file
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Keyless Authentication for exchanging resource token
+        uses: narwhl/imprint@v1
+        with:
+          scope: cloudflare
+
+      - name: Setup Terraform
+        uses: narwhl/setup-terraform@v1
+
