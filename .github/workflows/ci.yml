@@ -126,7 +126,7 @@ jobs:
       - name: Copy files with Rclone
         uses: docker://rclone/rclone:latest
         with:
-          environment:
+          env:
             RCLONE_CONFIG_R2_TYPE: s3
             RCLONE_CONFIG_R2_PROVIDER: Cloudflare
             RCLONE_CONFIG_R2_ACL: private
