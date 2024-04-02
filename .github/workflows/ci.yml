@@ -134,4 +134,4 @@ jobs:
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
         with:
           args:
-            copy . r2:artifact/upstream/
+            config show r2
