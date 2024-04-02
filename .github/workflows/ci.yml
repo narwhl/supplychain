@@ -133,6 +133,5 @@ jobs:
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
         with:
-          entrypoint: /bin/sh
           args:
-            rclone copy . r2:artifact/upstream/
+            copy . r2:artifact/upstream/
