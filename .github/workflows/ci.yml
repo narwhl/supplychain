@@ -123,8 +123,10 @@ jobs:
         with:
           scope: cloudflare
 
+      - name: Install Rclone
+        run: sudo apt-get install -y rclone
+
       - name: Copy files with Rclone
-        uses: docker://rclone/rclone:latest
         env:
           RCLONE_CONFIG_R2_TYPE: s3
           RCLONE_CONFIG_R2_PROVIDER: Cloudflare
@@ -132,6 +134,8 @@ jobs:
           RCLONE_CONFIG_R2_ENDPOINT: ${{ env.AWS_ENDPOINT_URL_S3 }}
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        with:
-          entrypoint: /usr/bin/echo
-          args: $RCLONE_CONFIG_R2_PROVIDER
+        run: |
+          rclone copy current.json r2:artifact/upstream/
+          rclone copy google-cloud-sdk.repo r2:artifact/upstream/
+          rclone copy grafana.repo r2:artifact/upstream/
+
