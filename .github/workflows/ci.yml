@@ -99,16 +99,14 @@ jobs:
 
       - name: Get output from terraform state
         run: |
-          terraform output -json state >> current.json
-          terraform output -raw google_cloud_sdk_repo > google-cloud-sdk.repo
-          terraform output -raw grafana_repo > grafana.repo
+          mkdir stage
+          terraform output -json state >> stage/current.json
+          terraform output -raw google_cloud_sdk_repo > stage/google-cloud-sdk.repo
+          terraform output -raw grafana_repo > stage/grafana.repo
 
       - uses: actions/upload-artifact@v4
         with:
-          path: |
-            current.json
-            google-cloud-sdk.repo
-            grafana.repo
+          path: stage/
           retention-days: 1
       
   publish:
@@ -128,16 +126,16 @@ jobs:
           sudo apt-get install -y rclone
           ls -la
           
-      - name: Copy files with Rclone
-        env:
-          RCLONE_CONFIG_R2_TYPE: s3
-          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
-          RCLONE_CONFIG_R2_ACL: private
-          RCLONE_CONFIG_R2_ENDPOINT: ${{ env.AWS_ENDPOINT_URL_S3 }}
-          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          rclone copy current.json r2:artifact/upstream/
-          rclone copy google-cloud-sdk.repo r2:artifact/upstream/
-          rclone copy grafana.repo r2:artifact/upstream/
+      # - name: Copy files with Rclone
+      #   env:
+      #     RCLONE_CONFIG_R2_TYPE: s3
+      #     RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      #     RCLONE_CONFIG_R2_ACL: private
+      #     RCLONE_CONFIG_R2_ENDPOINT: ${{ env.AWS_ENDPOINT_URL_S3 }}
+      #     RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+      #     RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     rclone copy current.json r2:artifact/upstream/
+      #     rclone copy google-cloud-sdk.repo r2:artifact/upstream/
+      #     rclone copy grafana.repo r2:artifact/upstream/
 
