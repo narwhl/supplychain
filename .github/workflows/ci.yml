@@ -3,13 +3,13 @@ name: Publish release manifest
 on:
   push:
   schedule:
-      - cron: "0 0 * * SUN"
+    - cron: "0 0 * * SUN"
 
 permissions:
   id-token: write
 
 jobs:
-  build:
+  plan:
     runs-on: ubuntu-latest
     name: Gather package releases
     steps:
@@ -38,62 +38,35 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
         run: terraform plan -no-color
-        continue-on-error: true
+  apply:
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: plan
+    name: Gather package releases
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      - name: Authenticate to security token service
+        uses: narwhl/imprint@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            // 1. Retrieve existing bot comments for the PR
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            })
-            const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
-            })
-            // 2. Prepare format of the comment
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            <details><summary>Validation Output</summary>
-            \`\`\`\n
-            ${{ steps.validate.outputs.stdout }}
-            \`\`\`
-            </details>
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
-            // 3. If we have a comment, update it, otherwise create a new one
-            if (botComment) {
-              github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: output
-              })
-            } else {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: output
-              })
-            }
+          scope: cloudflare
 
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
+      - name: Setup Terraform
+        uses: narwhl/setup-terraform@v1
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -105,30 +78,10 @@ jobs:
           terraform output -raw google_cloud_sdk_repo > google-cloud-sdk.repo
           terraform output -raw grafana_repo > grafana.repo
 
-      - uses: actions/upload-artifact@v4
-        with:
-          path: |
-            current.json
-            google-cloud-sdk.repo
-            grafana.repo
-          retention-days: 1
-      
-  publish:
-    runs-on: ubuntu-latest
-    name: Upload manifest file
-    needs: build
-    steps:
-      - uses: actions/download-artifact@v4
-
-      - name: Keyless Authentication for exchanging resource token
-        uses: narwhl/imprint@v1
-        with:
-          scope: cloudflare
-
       - name: Install Rclone
-        run: | 
+        run: |
           sudo apt-get install -yqq rclone
-          
+
       - name: Copy files with Rclone
         working-directory: artifact
         env:
@@ -142,4 +95,3 @@ jobs:
           rclone copy current.json r2:artifact/upstream/
           rclone copy google-cloud-sdk.repo r2:artifact/upstream/
           rclone copy grafana.repo r2:artifact/upstream/
-
