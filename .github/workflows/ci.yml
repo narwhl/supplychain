@@ -11,7 +11,7 @@ permissions:
 jobs:
   plan:
     runs-on: ubuntu-latest
-    name: Gather package releases
+    name: Refresh package releases
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     needs: plan
-    name: Gather package releases
+    name: Rollout updated manifest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -83,7 +83,6 @@ jobs:
           sudo apt-get install -yqq rclone
 
       - name: Copy files with Rclone
-        working-directory: artifact
         env:
           RCLONE_CONFIG_R2_TYPE: s3
           RCLONE_CONFIG_R2_PROVIDER: Cloudflare
