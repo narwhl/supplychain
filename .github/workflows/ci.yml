@@ -51,7 +51,7 @@ jobs:
       - name: Authenticate to security token service
         uses: narwhl/imprint@v1
         with:
-          scope: cloudflare
+          scope: cloudflare github
 
       - name: Setup Terraform
         uses: narwhl/setup-terraform@v1
@@ -94,3 +94,14 @@ jobs:
           rclone copy current.json r2:artifact/upstream/
           rclone copy google-cloud-sdk.repo r2:artifact/upstream/
           rclone copy grafana.repo r2:artifact/upstream/
+      - name: Trigger Downstream Workflow
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'narwhl',
+              repo: 'blueprint',
+              workflow_id: 'sysext.yml',
+              ref: 'main',
+            })
