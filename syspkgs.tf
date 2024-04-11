@@ -174,10 +174,7 @@ data "external" "extract_version" {
 
 locals {
   version_of = {
-    for name, release_spec in local.pkgs : name => trimprefix(
-      data.external.extract_version[name].result.version,
-      "v"
-    )
+    for name, release_spec in local.pkgs : name => data.external.extract_version[name].result.version
   }
 }
 

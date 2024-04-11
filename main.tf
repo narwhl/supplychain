@@ -78,7 +78,10 @@ resource "terraform_data" "upstream" {
     }
     syspkgs = {
       for name, release_spec in local.pkgs : name => {
-        version = local.version_of[name]
+        version = trimprefix(
+          local.version_of[name],
+          "v"
+        )
         /*
         * each package has its own download url pattern and filename pattern
         * that is named associated with its version, it checks for package artifact provider's 
