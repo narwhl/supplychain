@@ -88,7 +88,14 @@ resource "terraform_data" "upstream" {
         * url pattern and format its url with {org_name/pkg_name} if needed and replaces custom
         * template string with version tag
         */
-        pkg_url = replace(
+        pkg_url = release_spec.file_served_by == "hashicorp" ? replace(
+          "${strcontains(
+            var.release_download_url_patterns[release_spec.file_served_by],
+            "%s"
+          ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${release_spec.filename_pattern}",
+          "$v",
+          release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name]
+          ) : replace(
           "${strcontains(
             var.release_download_url_patterns[release_spec.file_served_by],
             "%s"

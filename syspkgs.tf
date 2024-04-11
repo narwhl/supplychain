@@ -96,14 +96,6 @@ locals {
       file_served_by   = "hashicorp"
       version_only     = true
     }
-    "waypoint" = {
-      source           = "github"
-      repository_id    = "hashicorp/waypoint"
-      release_key      = "waypoint"
-      filename_pattern = "waypoint_$v_linux_amd64.zip"
-      file_served_by   = "hashicorp"
-      version_only     = true
-    }
     "tailscale" = {
       source           = "github"
       repository_id    = "tailscale/tailscale"
