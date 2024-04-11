@@ -92,9 +92,9 @@ resource "terraform_data" "upstream" {
           "${strcontains(
             var.release_download_url_patterns[release_spec.file_served_by],
             "%s"
-          ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${release_spec.filename_pattern}",
+          ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${replace(release_spec.filename_pattern, "$v", release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name])}",
           "$v",
-          release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name]
+          local.version_of[name]
         )
         filename = replace(
           /* as some vendor allow their asset download path to contain abitrary prefix,
