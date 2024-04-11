@@ -6,6 +6,7 @@ locals {
       release_key      = "caddyserver/caddy"
       filename_pattern = "caddy_$v_linux_amd64.tar.gz"
       file_served_by   = "github"
+      version_only     = true
     }
     "cloudflared" = {
       source           = "github"
@@ -13,13 +14,15 @@ locals {
       release_key      = "cloudflare/cloudflared"
       filename_pattern = "cloudflared-linux-amd64"
       file_served_by   = "github"
+      version_only     = true
     }
     "cni-plugins" = {
       source           = "github"
       repository_id    = "containernetworking/plugins"
       release_key      = "containernetworking/plugins"
-      filename_pattern = "cni-plugins-linux-amd64-v$v.tgz"
+      filename_pattern = "cni-plugins-linux-amd64-$v.tgz"
       file_served_by   = "github"
+      version_only     = false
     }
     "coredns" = {
       source           = "github"
@@ -27,13 +30,15 @@ locals {
       release_key      = "coredns/coredns"
       filename_pattern = "coredns_$v_linux_amd64.tgz"
       file_served_by   = "github"
+      version_only     = true
     }
     "etcd" = {
       source           = "github"
       repository_id    = "etcd-io/etcd"
       release_key      = "etcd-io/etcd"
-      filename_pattern = "etcd-v$v-linux-amd64.tar.gz"
+      filename_pattern = "etcd-$v-linux-amd64.tar.gz"
       file_served_by   = "github"
+      version_only     = false
     }
     "gitlab-runner" = {
       source           = "gitlab"
@@ -41,20 +46,23 @@ locals {
       release_key      = "gitlab-org/gitlab-runner"
       filename_pattern = "binaries/gitlab-runner-linux-amd64"
       file_served_by   = "gitlab"
+      version_only     = false
     }
     "lego" = {
       source           = "github"
       repository_id    = "go-acme/lego"
       release_key      = "go-acme/lego"
-      filename_pattern = "lego_v$v_linux_amd64.tar.gz"
+      filename_pattern = "lego_$v_linux_amd64.tar.gz"
       file_served_by   = "github"
+      version_only     = false
     }
     "teleport" = {
       source           = "github"
       repository_id    = "gravitational/teleport"
       release_key      = ""
-      filename_pattern = "teleport-v$v-linux-amd64-bin.tar.gz"
+      filename_pattern = "teleport-$v-linux-amd64-bin.tar.gz"
       file_served_by   = "teleport"
+      version_only     = false
     }
     "boundary" = {
       source           = "github"
@@ -62,6 +70,7 @@ locals {
       release_key      = "boundary"
       filename_pattern = "boundary_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "consul-template" = {
       source           = "github"
@@ -69,6 +78,7 @@ locals {
       release_key      = "consul-template"
       filename_pattern = "consul-template_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "packer" = {
       source           = "hashicorp"
@@ -76,6 +86,7 @@ locals {
       release_key      = "packer"
       filename_pattern = "packer_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "vault" = {
       source           = "github"
@@ -83,6 +94,7 @@ locals {
       release_key      = "vault"
       filename_pattern = "vault_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "waypoint" = {
       source           = "github"
@@ -90,6 +102,7 @@ locals {
       release_key      = "waypoint"
       filename_pattern = "waypoint_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "tailscale" = {
       source           = "github"
@@ -97,6 +110,7 @@ locals {
       release_key      = ""
       filename_pattern = "tailscale_$v_amd64.tgz"
       file_served_by   = "tailscale"
+      version_only     = true
     }
     "terraform" = {
       source           = "hashicorp"
@@ -104,20 +118,23 @@ locals {
       release_key      = "terraform"
       filename_pattern = "terraform_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "traefik" = {
       source           = "github"
       repository_id    = "traefik/traefik"
       release_key      = "traefik/traefik"
-      filename_pattern = "traefik_v$v_linux_amd64.tar.gz"
+      filename_pattern = "traefik_$v_linux_amd64.tar.gz"
       file_served_by   = "github"
+      version_only     = false
     }
     "sops" = {
       source           = "github"
       repository_id    = "getsops/sops"
       release_key      = "getsops/sops"
-      filename_pattern = "sops-v$v.linux.amd64"
+      filename_pattern = "sops-$v.linux.amd64"
       file_served_by   = "github"
+      version_only     = false
     }
     "step-ca" = {
       source           = "github"
@@ -125,6 +142,7 @@ locals {
       release_key      = "smallstep/certificates"
       filename_pattern = "step-ca_linux_$v_amd64.tar.gz"
       file_served_by   = "github"
+      version_only     = true
     }
     "step-cli" = {
       source           = "github"
@@ -132,6 +150,7 @@ locals {
       release_key      = "smallstep/cli"
       filename_pattern = "step_linux_$v_amd64.tar.gz"
       file_served_by   = "github"
+      version_only     = true
     }
     "consul" = {
       source           = "hashicorp"
@@ -139,6 +158,7 @@ locals {
       release_key      = "consul"
       filename_pattern = "consul_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
     "nomad" = {
       source           = "hashicorp"
@@ -146,6 +166,7 @@ locals {
       release_key      = "nomad"
       filename_pattern = "nomad_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
+      version_only     = true
     }
   }
 }
