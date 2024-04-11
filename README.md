@@ -14,5 +14,5 @@ that has the need to fetch aforementioned info without reaching to the source an
 ### TODO
 
 - [ ] Devise a way to version it
-- [ ] Set up periodic run for CI to automatically publish new manifest
+- [x] Set up periodic run for CI to automatically publish new manifest
 - [ ] Capture and encapsulate other sources
