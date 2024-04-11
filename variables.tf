@@ -40,7 +40,7 @@ variable "release_download_url_patterns" {
   type = map(string)
   default = {
     github    = "https://github.com/%s/releases/download/$v/"
-    gitlab    = "https://gitlab.com/%s/-/releases/v$v/downloads/"
+    gitlab    = "https://gitlab.com/%s/-/releases/$v/downloads/"
     hashicorp = "https://releases.hashicorp.com/%s/$v/"
     teleport  = "https://cdn.teleport.dev/"
     tailscale = "https://pkgs.tailscale.com/stable/"
