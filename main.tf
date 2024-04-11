@@ -94,7 +94,7 @@ resource "terraform_data" "upstream" {
             "%s"
           ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${release_spec.filename_pattern}",
           "$v",
-          release_spec.version_only?trimprefix(local.version_of[name], "v"):local.version_of[name]
+          release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name]
         )
         filename = replace(
           /* as some vendor allow their asset download path to contain abitrary prefix,
@@ -103,7 +103,7 @@ resource "terraform_data" "upstream" {
            */
           element(split("/", release_spec.filename_pattern), length(split("/", release_spec.filename_pattern)) - 1),
           "$v",
-          release_spec.version_only?trimprefix(local.version_of[name], "v"):local.version_of[name]
+          release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name]
         )
       }
     }
