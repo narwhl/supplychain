@@ -56,11 +56,11 @@ resource "terraform_data" "upstream" {
       flatcar = {
         version = local.distros.flatcar.version
         ova = {
-          url      = "https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova"
+          url      = "https://stable.release.flatcar-linux.net/amd64-usr/${local.distros.flatcar.version}/flatcar_production_vmware_ova.ova"
           checksum = local.distros.flatcar.checksums.ova
         }
         qemu = {
-          url      = "https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_qemu_image.img"
+          url      = "https://stable.release.flatcar-linux.net/amd64-usr/${local.distros.flatcar.version}/flatcar_production_qemu_image.img"
           checksum = local.distros.flatcar.checksums.qemu
         }
       }
