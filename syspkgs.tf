@@ -56,6 +56,14 @@ locals {
       file_served_by   = "github"
       version_only     = false
     }
+    "promtail" = {
+      source           = "github"
+      repository_id    = "grafana/loki"
+      release_key      = "grafana/loki"
+      filename_pattern = "promtail-linux-amd64.zip"
+      file_served_by   = "github"
+      version_only     = false
+    }
     "teleport" = {
       source           = "github"
       repository_id    = "gravitational/teleport"
