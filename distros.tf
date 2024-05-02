@@ -32,11 +32,20 @@ data "http" "nixos_release" {
   url = "https://channels.nixos.org/${local.nixos_channel_revision}/latest-nixos-minimal-x86_64-linux.iso.sha256"
 }
 
+data "http" "talos" {
+  url = "https://api.github.com/repos/siderolabs/talos/releases/latest"
+}
+
+data "http" "talos_release" {
+  url = "https://github.com/siderolabs/talos/releases/download/${local.talos_version}/sha256sum.txt"
+}
+
 locals {
   nixos_channel_revision = jsondecode(
     data.http.nixos_channels.response_body
     )["data"]["result"][
   index(jsondecode(data.http.nixos_channels.response_body)["data"]["result"].*.metric.status, "stable")]["metric"]["channel"]
+  talos_version = jsondecode(data.http.talos.response_body).tag_name
 }
 
 locals {
@@ -79,6 +88,13 @@ locals {
       channel  = trimprefix(local.nixos_channel_revision, "nixos-")
       checksum = split("  ", data.http.nixos_release.response_body)[0]
       version  = trimprefix(trimsuffix(split("  ", data.http.nixos_release.response_body)[1], "-x86_64-linux.iso"), "nixos-minimal-")
+    }
+    talos = {
+      version = local.talos_version
+      checksums = {
+        ova = split("  ", split("\n", data.http.talos_release.response_body)[17])[0]
+        iso = split("  ", split("\n", data.http.talos_release.response_body)[47])[0]
+      }
     }
   }
 }

@@ -75,6 +75,21 @@ resource "terraform_data" "upstream" {
           checksum = local.distros.nixos.checksum
         }
       }
+      talos = {
+        version = local.distros.talos.version
+        iso = {
+          url = format(
+            "https://github.com/siderolabs/talos/releases/download/${local.distros.talos.version}/metal-amd64.iso"
+          )
+          checksum = local.distros.talos.checksums.iso
+        }
+        ova = {
+          url = format(
+            "https://github.com/siderolabs/talos/releases/download/${local.distros.talos.version}/vmware-amd64.ova"
+          )
+          checksum = local.distros.talos.checksums.ova
+        }
+      }
     }
     syspkgs = {
       for name, release_spec in local.pkgs : name => {
