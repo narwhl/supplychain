@@ -92,8 +92,8 @@ locals {
     talos = {
       version = local.talos_version
       checksums = {
-        ova = split("  ", split("\n", data.http.talos_release.response_body)[17])[0]
-        iso = split("  ", split("\n", data.http.talos_release.response_body)[47])[0]
+        ova = split("  ", split("\n", data.http.talos_release.response_body)[47])[0]
+        iso = split("  ", split("\n", data.http.talos_release.response_body)[17])[0]
       }
     }
   }
