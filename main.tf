@@ -46,7 +46,7 @@ resource "terraform_data" "upstream" {
         }
         qemu = {
           url = format(
-            "https://cloud.debian.org/images/cloud/%s/latest/debian-%s-generic-amd64.qcow2",
+            "https://cloud.debian.org/images/cloud/%s/latest/debian-%s-nocloud-amd64.qcow2",
             var.debian_major_release.codename,
             var.debian_major_release.version
           )
