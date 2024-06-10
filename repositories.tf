@@ -63,6 +63,11 @@ locals {
         "source" = "https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo"
       }
     }
+    "postgresql" = {
+      "dnf" = {
+        "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+      }
+    }
     "tailscale" = {
       "apt" = {
         "signing_key_url" = "https://pkgs.tailscale.com/stable/debian/${var.debian_major_release.codename}.noarmor.gpg"
