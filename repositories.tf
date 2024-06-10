@@ -65,7 +65,7 @@ locals {
     }
     "postgresql" = {
       "dnf" = {
-        "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+        "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
       }
     }
     "tailscale" = {
