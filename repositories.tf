@@ -51,7 +51,7 @@ locals {
         "source"          = "https://packages.microsoft.com/repos/azure-cli/ $RELEASE main"
       }
       "dnf" = {
-        "source" = "https://packages.microsoft.com/config/rhel/${var.rhel_major_release}.0/prod.repo"
+        "source" = "https://packages.microsoft.com/config/rhel/${var.rhel_major_release.version}.0/prod.repo"
       }
     }
     "nvidia-container-toolkit" = {
@@ -69,7 +69,7 @@ locals {
         "source"          = "https://download.postgresql.org/pub/repos/apt/dists/${var.debian_major_release.codename}-pgdg/16/binary-amd64/Release"
       }
       "dnf" = {
-        "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-${var.rhel_major_release}-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+        "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-${var.rhel_major_release.version}-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
       }
     }
     "tailscale" = {
