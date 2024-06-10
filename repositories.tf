@@ -63,15 +63,6 @@ locals {
         "source" = "https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo"
       }
     }
-    "postgresql" = {
-      "apt" = {
-        "signing_key_url" = "https://download.postgresql.org/pub/repos/apt/dists/${var.debian_major_release.codename}-pgdg/Release.gpg"
-        "source"          = "https://download.postgresql.org/pub/repos/apt/dists/${var.debian_major_release.codename}-pgdg/16/binary-amd64/Release"
-      }
-      "dnf" = {
-        "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-${var.rhel_major_release.version}-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
-      }
-    }
     "tailscale" = {
       "apt" = {
         "signing_key_url" = "https://pkgs.tailscale.com/stable/debian/${var.debian_major_release.codename}.noarmor.gpg"
