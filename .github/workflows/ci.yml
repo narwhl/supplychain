@@ -87,9 +87,9 @@ jobs:
           RCLONE_CONFIG_R2_TYPE: s3
           RCLONE_CONFIG_R2_PROVIDER: Cloudflare
           RCLONE_CONFIG_R2_ACL: private
-          RCLONE_CONFIG_R2_ENDPOINT: ${{ env.AWS_ENDPOINT_URL_S3 }}
-          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: ${{ env.CF_R2_ENDPOINT_URL }}
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.CF_R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.CF_R2_SECRET_ACCESS_KEY }}
         run: |
           rclone copy current.json r2:artifact/upstream/
           rclone copy google-cloud-sdk.repo r2:artifact/upstream/
