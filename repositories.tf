@@ -66,7 +66,7 @@ locals {
     "postgresql" = {
       "apt" = {
         "signing_key_url" = "https://download.postgresql.org/pub/repos/apt/dists/${var.debian_major_release.codename}-pgdg/Release.gpg"
-        "source" = "https://download.postgresql.org/pub/repos/apt/dists/${var.debian_major_release.codename}-pgdg/16/binary-amd64/Release"
+        "source"          = "https://download.postgresql.org/pub/repos/apt/dists/${var.debian_major_release.codename}-pgdg/16/binary-amd64/Release"
       }
       "dnf" = {
         "source" = "https://download.postgresql.org/pub/repos/yum/reporpms/EL-${var.rhel_major_release}-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
