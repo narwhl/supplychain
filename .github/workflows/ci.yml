@@ -51,7 +51,7 @@ jobs:
       - name: Authenticate to security token service
         uses: narwhl/imprint@v1
         with:
-          scope: cloudflare github
+          scope: cloudflare:r2 github
 
       - name: Setup Terraform
         uses: narwhl/setup-terraform@v1
