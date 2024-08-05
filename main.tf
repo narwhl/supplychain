@@ -137,7 +137,7 @@ output "state" {
 }
 
 output "version" {
-  value = "${formatdate("YY.MM.", timestamp())}${floor(convert(formatdate("D", timestamp()), number) / 7)}"
+  value = "${formatdate("YY.MM.", timestamp())}${floor(tonumber(formatdate("D", timestamp())) / 7)}"
 }
 
 output "google_cloud_sdk_repo" {
