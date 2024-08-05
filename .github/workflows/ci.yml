@@ -94,7 +94,7 @@ jobs:
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.CF_R2_SECRET_ACCESS_KEY }}
         run: |
           rclone copy current.json r2:artifact/upstream/
-          rclone copy ${{ steps.state.outputs.version }}.json r2:artifact/upstream/
+          rclone copy current.json r2:artifact/upstream/${{ steps.state.outputs.version }}.json
           rclone copy google-cloud-sdk.repo r2:artifact/upstream/
           rclone copy grafana.repo r2:artifact/upstream/
       - name: Trigger Downstream Workflow
