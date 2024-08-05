@@ -136,6 +136,10 @@ output "state" {
   value = terraform_data.upstream.input
 }
 
+output "version" {
+  value = "${formatdate("YY.MM.", timestamp())}${floor(convert(formatdate("D", timestamp()), number) / 7)}"
+}
+
 output "google_cloud_sdk_repo" {
   value = <<-EOF
     [google-cloud-cli]

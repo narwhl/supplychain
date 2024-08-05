@@ -73,10 +73,12 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Get output from terraform state
+        id: state
         run: |
           terraform output -json state >> current.json
           terraform output -raw google_cloud_sdk_repo > google-cloud-sdk.repo
           terraform output -raw grafana_repo > grafana.repo
+          echo "version=$(terraform output -raw version)" >> $GITHUB_OUTPUT
 
       - name: Install Rclone
         run: |
@@ -92,6 +94,7 @@ jobs:
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.CF_R2_SECRET_ACCESS_KEY }}
         run: |
           rclone copy current.json r2:artifact/upstream/
+          rclone copy ${{ steps.state.outputs.version }}.json r2:artifact/upstream/
           rclone copy google-cloud-sdk.repo r2:artifact/upstream/
           rclone copy grafana.repo r2:artifact/upstream/
       - name: Trigger Downstream Workflow
