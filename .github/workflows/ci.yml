@@ -93,6 +93,7 @@ jobs:
           RCLONE_CONFIG_R2_ENDPOINT: ${{ env.CF_R2_ENDPOINT_URL }}
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ env.CF_R2_ACCESS_KEY_ID }}
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ env.CF_R2_SECRET_ACCESS_KEY }}
+          RCLONE_S3_NO_CHECK_BUCKET: true
         run: |
           rclone copy current.json r2:artifact/upstream/
           rclone copy ${{ steps.state.outputs.version }}.json r2:artifact/upstream/
