@@ -92,8 +92,8 @@ locals {
     talos = {
       version = local.talos_version
       checksums = {
-        ova = split("  ", [ for line in split("\n", data.http.talos_release.response_body): line if strcontains(line, "vmware-amd64")][0])[0]
-        iso = split("  ", [ for line in split("\n", data.http.talos_release.response_body): line if strcontains(line, "metal-amd64")][0])[0]
+        ova = split("  ", [for line in split("\n", data.http.talos_release.response_body) : line if strcontains(line, "vmware-amd64")][0])[0]
+        iso = split("  ", [for line in split("\n", data.http.talos_release.response_body) : line if strcontains(line, "metal-amd64")][0])[0]
       }
     }
   }
