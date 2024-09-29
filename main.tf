@@ -79,15 +79,24 @@ resource "terraform_data" "upstream" {
         version = local.distros.talos.version
         iso = {
           url = format(
-            "https://github.com/siderolabs/talos/releases/download/${local.distros.talos.version}/metal-amd64.iso"
+            "https://factory.talos.dev/image/%s/%s/metal-amd64.iso",
+            jsondecode(data.http.talos_qemu_customization.response_body).id,
+            local.distros.talos.version
           )
-          checksum = local.distros.talos.checksums.iso
+        }
+        qemu = {
+          url = format(
+            "https://factory.talos.dev/image/%s/%s/metal-amd64.qcow2",
+            jsondecode(data.http.talos_qemu_customization.response_body).id,
+            local.distros.talos.version
+          )
         }
         ova = {
           url = format(
-            "https://github.com/siderolabs/talos/releases/download/${local.distros.talos.version}/vmware-amd64.ova"
+            "https://factory.talos.dev/image/%s/%s/vmware-amd64.ova",
+            jsondecode(data.http.talos_vmware_customization.response_body).id,
+            local.distros.talos.version
           )
-          checksum = local.distros.talos.checksums.ova
         }
       }
     }

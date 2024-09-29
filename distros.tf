@@ -36,9 +36,46 @@ data "http" "talos" {
   url = "https://api.github.com/repos/siderolabs/talos/releases/latest"
 }
 
-data "http" "talos_release" {
-  url = "https://github.com/siderolabs/talos/releases/download/${local.talos_version}/sha256sum.txt"
+data "http" "talos_qemu_customization" {
+  url    = "https://factory.talos.dev/schematics"
+  method = "POST"
+
+  request_headers = {
+    "Accept"       = "application/json"
+    "Content-Type" = "application/octet-stream"
+  }
+
+  request_body = yamlencode({
+    customization = {
+      systemExtensions = {
+        officialExtensions = [
+          "siderolabs/qemu-guest-agent"
+        ]
+      }
+    }
+  })
 }
+
+data "http" "talos_vmware_customization" {
+  url    = "https://factory.talos.dev/schematics"
+  method = "POST"
+
+  request_headers = {
+    "Accept"       = "application/json"
+    "Content-Type" = "application/octet-stream"
+  }
+
+  request_body = yamlencode({
+    customization = {
+      systemExtensions = {
+        officialExtensions = [
+          "siderolabs/vmtoolsd-guest-agent"
+        ]
+      }
+    }
+  })
+}
+
 
 locals {
   nixos_channel_revision = jsondecode(
@@ -91,10 +128,6 @@ locals {
     }
     talos = {
       version = local.talos_version
-      checksums = {
-        ova = split("  ", [for line in split("\n", data.http.talos_release.response_body) : line if strcontains(line, "vmware-amd64")][0])[0]
-        iso = split("  ", [for line in split("\n", data.http.talos_release.response_body) : line if strcontains(line, "metal-amd64")][0])[0]
-      }
     }
   }
 }
