@@ -80,8 +80,8 @@ locals {
 }
 
 locals {
-  nixos_channel_revision = [ for release in nixos_releases: release.metric.channel if release.metric.status == "stable" && release.metric.variant == "primary"][0]
-  talos_version = jsondecode(data.http.talos.response_body).tag_name
+  nixos_channel_revision = [for release in local.nixos_releases : release.metric.channel if release.metric.status == "stable" && release.metric.variant == "primary"][0]
+  talos_version          = jsondecode(data.http.talos.response_body).tag_name
 }
 
 locals {
