@@ -76,11 +76,11 @@ data "http" "talos_vmware_customization" {
   })
 }
 locals {
-  nixos_releases = jsondecode(data.http.nixos_channels.response_body)["data"]["result"]
+  nixos_releases = [for release in jsondecode(data.http.nixos_channels.response_body)["data"]["result"] : release if release.metric.status == "stable" && contains(keys(release.metric), "variant")]
 }
 
 locals {
-  nixos_channel_revision = [for release in local.nixos_releases : release.metric.channel if release.metric.status == "stable" && contains(keys(release.metric), "variant") && release.metric.variant == "primary"][0]
+  nixos_channel_revision = [for release in local.nixos_releases : release.metric.channel if release.metric.variant == "primary"][0]
   talos_version          = jsondecode(data.http.talos.response_body).tag_name
 }
 
