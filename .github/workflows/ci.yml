@@ -104,9 +104,11 @@ jobs:
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: 'narwhl',
-              repo: 'blueprint',
-              workflow_id: 'sysext.yml',
-              ref: 'main',
-            })
+            for (const workflow of ['sysext', 'ami']) {
+              github.rest.actions.createWorkflowDispatch({
+                owner: 'narwhl',
+                repo: 'blueprint',
+                workflow_id: `${workflow}.yml`,
+                ref: 'main',
+              })
+            }
