@@ -153,8 +153,8 @@ locals {
       version_only     = true
     }
     "consul" = {
-      source           = "hashicorp"
-      repository_id    = "consul"
+      source           = "github"
+      repository_id    = "hashicorp/consul"
       release_key      = "consul"
       filename_pattern = "consul_$v_linux_amd64.zip"
       file_served_by   = "hashicorp"
