@@ -92,9 +92,9 @@ data "external" "apt_key" {
   program = [
     "sh",
     "-c",
-    "gpg --with-fingerprint --with-colons 2>/dev/null $(jq -r '.signing_key_url') | awk -F: '/^fpr/ { print $10 }' | head -1 | jq --raw-input '{\"keyid\": .}'"
+    "echo $(jq -r '.signing_key') | base64 --decode | gpg --with-fingerprint --with-colons 2>/dev/null | awk -F: '/^fpr/ { print $10 }' | head -1 | jq --raw-input '{\"keyid\": .}'"
   ]
   query = {
-    signing_key_url = data.http.signing_keys[each.key].response_body
+    signing_key = data.http.signing_keys[each.key].response_body
   }
 }
