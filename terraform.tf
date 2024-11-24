@@ -1,7 +1,5 @@
 terraform {
-  backend "s3" {
-    key = "states/supplychain/terraform.tfstate"
-  }
+  backend "http" {}
   required_providers {
     external = {
       source  = "hashicorp/external"
