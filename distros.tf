@@ -89,7 +89,7 @@ locals {
     alma = {
       version = trimsuffix(
         trimprefix(
-          split(":", split("\n", data.http.alma_release["iso"].response_body)[7])[0],
+          split(":", split("\n", data.http.alma_release["iso"].response_body)[11])[0],
           "# AlmaLinux-"
         ),
         "-x86_64-minimal.iso"
