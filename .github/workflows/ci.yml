@@ -82,7 +82,7 @@ jobs:
 
       - name: Install Rclone
         run: |
-          sudo apt-get install -yqq rclone
+          sudo apt-get update && sudo apt-get install -yqq rclone
 
       - name: Copy files with Rclone
         env:
