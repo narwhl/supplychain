@@ -54,7 +54,7 @@ locals {
       release_key      = "actions/runner"
       filename_pattern = "actions-runner-linux-x64-$v.tar.gz"
       file_served_by   = "github"
-      version_only     = false
+      version_only     = true
     }
     "lego" = {
       source           = "github"
