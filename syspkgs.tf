@@ -48,6 +48,14 @@ locals {
       file_served_by   = "gitlab"
       version_only     = false
     }
+    "actions-runner" = {
+      source           = "github"
+      repository_id    = "actions/runner"
+      release_key      = "actions/runner"
+      filename_pattern = "actions-runner-linux-x64-$v.tar.gz"
+      file_served_by   = "github"
+      version_only     = false
+    }
     "lego" = {
       source           = "github"
       repository_id    = "go-acme/lego"
