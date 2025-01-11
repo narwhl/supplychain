@@ -64,6 +64,14 @@ locals {
       file_served_by   = "github"
       version_only     = false
     }
+    "node-exporter" = {
+      source           = "github"
+      repository_id    = "prometheus/node_exporter"
+      release_key      = "prometheus/node_exporter"
+      filename_pattern = "node_exporter-$v.linux-amd64.tar.gz"
+      file_served_by   = "github"
+      version_only     = false
+    }
     "promtail" = {
       source           = "github"
       repository_id    = "grafana/loki"
@@ -206,4 +214,3 @@ locals {
     for name, release_spec in local.pkgs : name => data.external.extract_version[name].result.version
   }
 }
-
