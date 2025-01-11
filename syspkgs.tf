@@ -70,7 +70,7 @@ locals {
       release_key      = "prometheus/node_exporter"
       filename_pattern = "node_exporter-$v.linux-amd64.tar.gz"
       file_served_by   = "github"
-      version_only     = false
+      version_only     = true
     }
     "promtail" = {
       source           = "github"
