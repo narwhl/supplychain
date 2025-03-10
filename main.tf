@@ -59,6 +59,10 @@ resource "terraform_data" "upstream" {
           url      = "https://stable.release.flatcar-linux.net/amd64-usr/${local.distros.flatcar.version}/flatcar_production_vmware_ova.ova"
           checksum = local.distros.flatcar.checksums.ova
         }
+        proxmox = {
+          url      = "https://stable.release.flatcar-linux.net/amd64-usr/${local.distros.flatcar.version}/flatcar_production_proxmoxve_image.img"
+          checksum = local.distros.flatcar.checksums.proxmox
+        }
         qemu = {
           url      = "https://stable.release.flatcar-linux.net/amd64-usr/${local.distros.flatcar.version}/flatcar_production_qemu_image.img"
           checksum = local.distros.flatcar.checksums.qemu

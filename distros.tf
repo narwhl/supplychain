@@ -9,6 +9,7 @@ data "http" "debian_release" {
 data "http" "flatcar_release" {
   for_each = {
     "ova"     = "https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova.DIGESTS"
+    "proxmox" = "https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_proxmoxve_image.img.DIGESTS"
     "qemu"    = "https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_qemu_image.img.DIGESTS"
     "version" = "https://stable.release.flatcar-linux.net/amd64-usr/current/version.txt"
   }
@@ -116,8 +117,9 @@ locals {
     flatcar = {
       version = split("=", split("\n", data.http.flatcar_release["version"].response_body)[3])[1]
       checksums = {
-        ova  = split("  ", split("\n", data.http.flatcar_release["ova"].response_body)[5])[0]
-        qemu = split("  ", split("\n", data.http.flatcar_release["qemu"].response_body)[5])[0]
+        ova     = split("  ", split("\n", data.http.flatcar_release["ova"].response_body)[5])[0]
+        proxmox = split("  ", split("\n", data.http.flatcar_release["proxmox"].response_body)[5])[0]
+        qemu    = split("  ", split("\n", data.http.flatcar_release["qemu"].response_body)[5])[0]
       }
     }
     nixos = {
