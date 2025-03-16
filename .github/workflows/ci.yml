@@ -4,6 +4,15 @@ on:
   push:
   schedule:
     - cron: "0 0 * * SUN"
+  workflow_dispatch:
+    inputs:
+      intent:
+        type: choice
+        description: Action to run terraform with
+        default: plan
+        options:
+          - plan
+          - apply
 
 permissions:
   id-token: write
@@ -83,6 +92,7 @@ jobs:
   apply:
     runs-on: ubuntu-latest
     environment: Production
+    if: github.event.inputs.intent == 'apply' || github.event_name == 'schedule'
     needs: plan
     name: Rollout updated manifest
     steps:

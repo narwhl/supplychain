@@ -10,9 +10,3 @@ this repository houses the terraform codes for pulling manifest files and fetche
 
 It encapsulates the result into a json and publishes on my personal r2 bucket on cloudflare, so that it can be consumes as the source of truth via http for other projects
 that has the need to fetch aforementioned info without reaching to the source and performing any transform to the data.
-
-### TODO
-
-- [ ] Devise a way to version it
-- [x] Set up periodic run for CI to automatically publish new manifest
-- [ ] Capture and encapsulate other sources
