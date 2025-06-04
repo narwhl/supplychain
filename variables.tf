@@ -46,3 +46,9 @@ variable "release_download_url_patterns" {
     tailscale = "https://pkgs.tailscale.com/stable/"
   }
 }
+
+variable "syspkg_version_overrides" {
+  default = {
+    tailscale = "1.84.0"
+  }
+}

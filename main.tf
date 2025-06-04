@@ -1,3 +1,7 @@
+locals {
+  effective_version_of = merge(local.version_of, var.syspkg_version_overrides)
+}
+
 resource "terraform_data" "upstream" {
   input = {
     repositories = {
@@ -107,7 +111,7 @@ resource "terraform_data" "upstream" {
     syspkgs = {
       for name, release_spec in local.pkgs : name => {
         version = trimprefix(
-          local.version_of[name],
+          local.effective_version_of[name],
           "v"
         )
         /*
