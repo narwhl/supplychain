@@ -1,3 +1,7 @@
+locals {
+  effective_version_of = merge(local.version_of, var.syspkg_version_overrides)
+}
+
 resource "terraform_data" "upstream" {
   input = {
     repositories = {
@@ -107,7 +111,7 @@ resource "terraform_data" "upstream" {
     syspkgs = {
       for name, release_spec in local.pkgs : name => {
         version = trimprefix(
-          local.version_of[name],
+          local.effective_version_of[name],
           "v"
         )
         /*
@@ -122,14 +126,14 @@ resource "terraform_data" "upstream" {
             "%s"
           ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${release_spec.filename_pattern}",
           "$v",
-          release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name]
+          release_spec.version_only ? trimprefix(local.effective_version_of[name], "v") : local.effective_version_of[name]
           ) : replace(
           "${strcontains(
             var.release_download_url_patterns[release_spec.file_served_by],
             "%s"
-          ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${replace(release_spec.filename_pattern, "$v", release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name])}",
+          ) ? format(var.release_download_url_patterns[release_spec.file_served_by], release_spec.release_key) : var.release_download_url_patterns[release_spec.file_served_by]}${replace(release_spec.filename_pattern, "$v", release_spec.version_only ? trimprefix(local.effective_version_of[name], "v") : local.effective_version_of[name])}",
           "$v",
-          local.version_of[name]
+          local.effective_version_of[name]
         )
         filename = replace(
           /* as some vendor allow their asset download path to contain abitrary prefix,
@@ -138,7 +142,7 @@ resource "terraform_data" "upstream" {
            */
           element(split("/", release_spec.filename_pattern), length(split("/", release_spec.filename_pattern)) - 1),
           "$v",
-          release_spec.version_only ? trimprefix(local.version_of[name], "v") : local.version_of[name]
+          release_spec.version_only ? trimprefix(local.effective_version_of[name], "v") : local.effective_version_of[name]
         )
       }
     }
