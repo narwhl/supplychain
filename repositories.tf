@@ -65,7 +65,7 @@ locals {
     }
     "tailscale" = {
       "apt" = {
-        "signing_key_url" = "https://pkgs.tailscale.com/stable/debian/${var.debian_major_release.codename}.noarmor.gpg"
+        "signing_key_url" = "https://pkgs.tailscale.com/stable/debian/${var.debian_major_release.codename}.gpg"
         "source"          = "https://pkgs.tailscale.com/stable/debian $RELEASE main"
       }
       "dnf" = {
