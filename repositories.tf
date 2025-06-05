@@ -89,27 +89,3 @@ locals {
     }
   }
 }
-
-data "http" "signing_keys" {
-  for_each = local.repositories
-  url      = each.value.apt.signing_key_url
-
-  lifecycle {
-    postcondition {
-      condition     = contains([200], self.status_code)
-      error_message = "Status code invalid"
-    }
-  }
-}
-
-data "external" "apt_key" {
-  for_each = local.repositories
-  program = [
-    "sh",
-    "-c",
-    "echo $(jq -r '.signing_key') | base64 --decode | gpg --with-fingerprint --with-colons 2>/dev/null | awk -F: '/^fpr/ { print $10 }' | head -1 | jq --raw-input '{\"keyid\": .}'"
-  ]
-  query = {
-    signing_key = data.http.signing_keys[each.key].response_body_base64
-  }
-}

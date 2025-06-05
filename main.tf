@@ -4,23 +4,7 @@ locals {
 
 resource "terraform_data" "upstream" {
   input = {
-    repositories = {
-      /* 
-      * cloud-init takes keyid in its apt sources section for repository that requires gpg signature
-      * it extracts gpg key and outputs its fingerprint string by using an external provider and shorten
-      * it to the last 16 characters as keyid
-      */
-      for publisher, repository in local.repositories : publisher => {
-        apt = {
-          keyid           = substr(data.external.apt_key[publisher].result.keyid, -16, -1)
-          source          = repository.apt.source
-          signing_key_url = repository.apt.signing_key_url
-        }
-        dnf = {
-          source = repository.dnf.source
-        }
-      }
-    }
+    repositories = local.repositories
     distros = {
       alma = {
         version = local.distros.alma.version
