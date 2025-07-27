@@ -49,7 +49,5 @@ variable "release_download_url_patterns" {
 
 variable "syspkg_version_overrides" {
   type = map(string)
-  default = {
-    tailscale = "1.84.0"
-  }
+  default = {}
 }
