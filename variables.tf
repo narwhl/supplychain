@@ -4,8 +4,8 @@ variable "debian_major_release" {
     version  = number
   })
   default = {
-    codename = "bookworm"
-    version  = 12
+    codename = "trixie"
+    version  = 13
   }
 }
 
@@ -14,7 +14,7 @@ variable "rhel_major_release" {
     version = number
   })
   default = {
-    version = 9
+    version = 10
   }
 }
 
