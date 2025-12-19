@@ -23,10 +23,10 @@ jobs:
     name: Refresh package releases
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Terraform
-        uses: narwhl/setup-terraform@v1
+        uses: narwhl/actions/setup-terraform@latest
         with:
           state: root/supplychain
 
@@ -97,7 +97,7 @@ jobs:
     name: Rollout updated manifest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download plan artifact
         uses: actions/download-artifact@v4
@@ -105,12 +105,12 @@ jobs:
           name: tfplan
 
       - name: Authenticate to security token service
-        uses: narwhl/imprint@v1
+        uses: narwhl/actions/imprint@latest
         with:
           scope: cloudflare:r2 github
 
       - name: Setup Terraform
-        uses: narwhl/setup-terraform@v1
+        uses: narwhl/actions/setup-terraform@latest
         with:
           state: root/supplychain
 
