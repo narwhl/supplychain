@@ -46,6 +46,8 @@ jobs:
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
       - name: Terraform Plan
         id: plan
+        env:
+          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export exitcode=0
           terraform plan -detailed-exitcode -no-color -out tfplan || export exitcode=$?
@@ -128,6 +130,8 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
+        env:
+          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
         run: terraform apply -auto-approve tfplan
 
       - name: Get output from terraform state

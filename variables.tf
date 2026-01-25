@@ -51,3 +51,10 @@ variable "syspkg_version_overrides" {
   type    = map(string)
   default = {}
 }
+
+variable "github_token" {
+  type        = string
+  description = "GitHub token for authenticating API requests"
+  default     = ""
+  sensitive   = true
+}

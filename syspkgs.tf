@@ -191,9 +191,15 @@ data "http" "releases" {
   for_each = local.pkgs
   url      = format(var.release_url_patterns[each.value.source], each.value.repository_id)
 
-  request_headers = {
-    Accept = "application/json"
-  }
+  request_headers = merge(
+    {
+      Accept = "application/json"
+    },
+    # Add GitHub authentication if source is github and token is provided
+    each.value.source == "github" && var.github_token != "" ? {
+      Authorization = "Bearer ${var.github_token}"
+    } : {}
+  )
 }
 
 data "external" "extract_version" {
