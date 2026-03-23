@@ -32,6 +32,14 @@ locals {
       file_served_by   = "github"
       version_only     = true
     }
+    "firecracker" = {
+      source           = "github"
+      repository_id    = "firecracker-microvm/firecracker"
+      release_key      = "firecracker-microvm/firecracker"
+      filename_pattern = "firecracker-$v-x86_64.tgz"
+      file_served_by   = "github"
+      version_only     = false
+    }
     "etcd" = {
       source           = "github"
       repository_id    = "etcd-io/etcd"
