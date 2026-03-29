@@ -56,5 +56,5 @@ variable "github_token" {
   type        = string
   description = "GitHub token for authenticating API requests"
   default     = ""
-  sensitive   = true
+  ephemeral   = true
 }
