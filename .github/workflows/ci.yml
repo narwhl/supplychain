@@ -23,7 +23,7 @@ jobs:
     name: Refresh package releases
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Terraform
         uses: narwhl/actions/setup-terraform@latest
@@ -63,7 +63,7 @@ jobs:
 
       # Save plan to artifacts
       - name: Publish Terraform Plan
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: tfplan
           path: tfplan
@@ -99,10 +99,10 @@ jobs:
     name: Rollout updated manifest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Download plan artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: tfplan
 
@@ -162,7 +162,7 @@ jobs:
           rclone copy google-cloud-sdk.repo r2:artifact/upstream/
           rclone copy grafana.repo r2:artifact/upstream/
       - name: Trigger Downstream Workflow
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
